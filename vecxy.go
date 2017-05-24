@@ -1,5 +1,7 @@
 package myplot
 
+import "github.com/gonum/matrix/mat64"
+
 type VecXY struct {
 	X []float64
 	Y []float64
@@ -34,4 +36,35 @@ func (v VecXYZ) Len() int {
 
 func (v VecXYZ) XYZ(i int) (x, y, z float64) {
 	return v.X[i], v.Y[i], v.Z[i]
+}
+
+type GridMat struct {
+	x []float64
+	y []float64
+	z *mat64.Dense
+}
+
+func NewGridMat(x, y []float64, z *mat64.Dense) GridMat {
+	return GridMat{
+		x: x,
+		y: y,
+		z: z,
+	}
+
+}
+
+func (g GridMat) Dims() (c, r int) {
+	return len(g.x), len(g.y)
+}
+
+func (g GridMat) X(c int) float64 {
+	return g.x[c]
+}
+
+func (g GridMat) Y(r int) float64 {
+	return g.y[r]
+}
+
+func (g GridMat) Z(c, r int) float64 {
+	return g.z.At(c, r)
 }

@@ -1,10 +1,15 @@
 package myplot
 
 import (
-	"code.google.com/p/plotinum/plot"
-	"code.google.com/p/plotinum/plotter"
+	//"code.google.com/p/plotinum/plot"
+	//"code.google.com/p/plotinum/plotter"
 	"fmt"
 	"math"
+
+	"github.com/gonum/plot"
+	"github.com/gonum/plot/plotter"
+	"github.com/gonum/plot/vg"
+	"github.com/gonum/plot/vg/draw"
 )
 
 // coloredscatter implements the Plotter interface, drawing
@@ -12,7 +17,7 @@ import (
 // determines the color of the dot.
 type ColoredScatter struct {
 	plotter.XYZs
-	plot.GlyphStyle
+	draw.GlyphStyle
 	Colormapper
 	minZ float64
 	maxZ float64
@@ -106,7 +111,8 @@ func BoundedNormalize(val, min, max float64) (norm float64) {
 	return norm
 }
 
-func (c *ColoredScatter) Plot(da plot.DrawArea, plt *plot.Plot) {
+//func (c *ColoredScatter) Plot(da plot.DrawArea, plt *plot.Plot) {
+func (c *ColoredScatter) Plot(da draw.Canvas, plt *plot.Plot) {
 	trX, trY := plt.Transforms(&da)
 
 	s, ok := c.Colormapper.(ScaledColormapper)
@@ -116,7 +122,7 @@ func (c *ColoredScatter) Plot(da plot.DrawArea, plt *plot.Plot) {
 	//fmt.Println("In myplot", "minz = ", c.minZ, "maxz = ", c.maxZ)
 	for _, p := range c.XYZs {
 		c.GlyphStyle.Color = c.Colormapper.Colormap(p.Z)
-		point := plot.Point{X: trX(p.X), Y: trY(p.Y)}
+		point := vg.Point{X: trX(p.X), Y: trY(p.Y)}
 		da.DrawGlyph(c.GlyphStyle, point)
 	}
 }
