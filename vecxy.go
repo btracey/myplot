@@ -1,6 +1,6 @@
 package myplot
 
-import "github.com/gonum/matrix/mat64"
+import "gonum.org/v1/gonum/mat"
 
 type VecXY struct {
 	X []float64
@@ -41,10 +41,10 @@ func (v VecXYZ) XYZ(i int) (x, y, z float64) {
 type GridMat struct {
 	x []float64
 	y []float64
-	z *mat64.Dense
+	z *mat.Dense
 }
 
-func NewGridMat(x, y []float64, z *mat64.Dense) GridMat {
+func NewGridMat(x, y []float64, z *mat.Dense) GridMat {
 	return GridMat{
 		x: x,
 		y: y,
